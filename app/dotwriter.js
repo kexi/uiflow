@@ -34,6 +34,19 @@ var tab = function(text, level) {
 var escapeQuote = function(text) {
     return '"' + (text + "").replace(/"/g, "\"") + '"';
 };
+var bs = /\\/g, pp = /\|/g, quote = /"/g, amp = /&/g, lt = /</g, gt = />/g, rchars = /[\\\|"&<>]/;
+var escapeText = function(text) {
+  if (!rchars.test(text)) {
+    return text;
+  }
+  return text
+    .replace(bs, '\\\\')
+    .replace(pp, '\\|')
+    .replace(quote, '\\"')
+    .replace(amp, '&amp;')
+    .replace(lt, '&lt;')
+    .replace(gt, '&gt;');
+};
 var attributes = function(tabLevel, obj) {
     return Object.keys(obj).map(function(key) {
         return tab(key + " = " + escapeQuote(obj[key]), tabLevel);
@@ -58,7 +71,7 @@ var edgeGlobal = function() {
     return blanket(1, "edge", dot.edge);
 };
 var section = function(port, text) {
-    return "<" + port + ">" + " " + text + "\\l ";
+    return "<" + port + ">" + " " + (text.map ? text.map(escapeText) : escapeText(text)) + "\\l ";
 };
 
 var runeWidth = function(str) {
