@@ -1,0 +1,7 @@
+[page]
+sees
+--
+action
+=={X}=> first
+=={Y}=> second
+=={Z}=> third

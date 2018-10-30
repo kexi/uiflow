@@ -125,18 +125,20 @@ var treeToDotArrow = function(tree) {
             if (!e.direction) {
                 return "";
             }
-            if (!tree[e.direction]) {
+            return e.direction.map(function (direction, idx) {
+                if (!tree[direction]) {
+                    return arrow(
+                        nameOf(elm, "action" + i),
+                        escapeQuote(direction),
+                        e.edge[idx]
+                    );
+                }
                 return arrow(
                     nameOf(elm, "action" + i),
-                    escapeQuote(e.direction),
-                    e.edge
+                    nameOf(tree[direction]),
+                    e.edge[idx]
                 );
-            }
-            return arrow(
-                nameOf(elm, "action" + i),
-                nameOf(tree[e.direction]),
-                e.edge
-            );
+            }).join("\n");
         }).join("\n");
     }).join("\n");
 };

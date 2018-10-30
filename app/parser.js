@@ -83,8 +83,14 @@ var parseTags = function(listOfNode, fileName) {
                 errorMessage("Undefined section" + "\tL:", node[3]);
             }
             actions = tree[currentSection].actions;
-            actions[actions.length - 1].direction = node[1];
-            actions[actions.length - 1].edge = node[2];
+            if (!actions[actions.length - 1].direction) {
+              actions[actions.length - 1].direction = [];
+            }
+            actions[actions.length - 1].direction.push(node[1]);
+            if (!actions[actions.length - 1].edge) {
+              actions[actions.length - 1].edge = [];
+            }
+            actions[actions.length - 1].edge.push(node[2]);
 
             tree[currentSection].state = "endaction";
 
